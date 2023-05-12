@@ -161,7 +161,7 @@ class DailyReportModel:
         self._latest_error = latest_error
     
     def find_by_device_id_and_date(self, device_id, date):
-        key = {'device_id': device_id, 'date': date}
+        key = {'device_id': device_id, 'timestamp': date}
         return self.__find(key)
     #####################################################################################
     #                                                                                   #
@@ -176,7 +176,7 @@ class DailyReportModel:
         #pass
     
     def find_by_device_id_and_date_range(self, device_id, from_date, to_date):
-        key = {'device_id': device_id, 'date': {'$gte': from_date, '$lte': to_date}}
+        key = {'device_id': device_id, 'timestamp': {'$gte': from_date, '$lte': to_date}}
         return self.__find(key)
     #####################################################################################
     #                                                                                   #
@@ -191,8 +191,9 @@ class DailyReportModel:
         #pass
 
     def find_first_anomaly_by_date_range(self, device_ids, threshold, from_date, to_date):
-        key = {'device_id': {'$in': device_ids}, 'anomaly_score': {'$gte': threshold}, 'date': {'$gte': from_date, '$lte': to_date}}
-        return self.__find(key)
+        key = {'device_id': {'$in': device_ids}, 'value': {'$gte': threshold},
+               'timestamp': {'$gte': from_date, '$lte': to_date}}
+        return self.__find(key).sort('timestamp', 1).limit(1)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #

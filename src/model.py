@@ -19,7 +19,8 @@ class DeviceModel:
         self._latest_error = latest_error
 
     def find_by_device_id(self, device_id):
-
+        key = {'device_id': device_id}
+        return self.__find(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -30,7 +31,7 @@ class DeviceModel:
     #####################################################################################
 
         # After implementing the function body, comment out the line below
-        pass
+        #pass
 
 
     def find_by_object_id(self, object_id):
@@ -38,6 +39,7 @@ class DeviceModel:
         return self.__find(key)
 
     def __find(self, key):
+        return self._db.get_single_data(DeviceModel.DEVICE_COLLECTION, key)
 
     #####################################################################################
     #                                                                                   #
@@ -49,7 +51,7 @@ class DeviceModel:
     #####################################################################################
         
         # After implementing the function body, comment out the line below
-        pass
+        #pass
 
     def insert(self, device_id, desc, type, manufacturer):
         self.latest_error = ''
@@ -86,7 +88,8 @@ class ReservoirDataModel:
         self._latest_error = latest_error
     
     def find_by_device_id_and_timestamp(self, device_id, timestamp):
-
+        key = {'device_id': device_id, 'timestamp': timestamp}
+        return self.__find(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -97,7 +100,7 @@ class ReservoirDataModel:
     #####################################################################################
 
         # After implementing the function body, comment out the line below
-        pass
+        #pass
 
     def find_by_object_id(self, obj_id):
         key = {'_id': ObjectId(obj_id)}
@@ -112,7 +115,7 @@ class ReservoirDataModel:
         return documents
     
     def __find(self, key):
-
+        return self._db.get_single_data(ReservoirDataModel.RESERVOIR_DATA_COLLECTION, key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -123,7 +126,7 @@ class ReservoirDataModel:
     #####################################################################################
 
         # After implementing the function body, comment out the line below
-        pass
+        #pass
     
     def __find_multiple(self, key):
         documents = self._db.get_multiple_data(ReservoirDataModel.RESERVOIR_DATA_COLLECTION, key)
@@ -158,7 +161,8 @@ class DailyReportModel:
         self._latest_error = latest_error
     
     def find_by_device_id_and_date(self, device_id, date):
-
+        key = {'device_id': device_id, 'date': date}
+        return self.__find(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -169,10 +173,11 @@ class DailyReportModel:
     #####################################################################################
 
         # After implementing the function body, comment out the line below
-        pass
+        #pass
     
     def find_by_device_id_and_date_range(self, device_id, from_date, to_date):
-
+        key = {'device_id': device_id, 'date': {'$gte': from_date, '$lte': to_date}}
+        return self.__find(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -183,10 +188,11 @@ class DailyReportModel:
     #####################################################################################
 
         # After implementing the function body, comment out the line below
-        pass
+        #pass
 
     def find_first_anomaly_by_date_range(self, device_ids, threshold, from_date, to_date):
-
+        key = {'device_id': {'$in': device_ids}, 'anomaly_score': {'$gte': threshold}, 'date': {'$gte': from_date, '$lte': to_date}}
+        return self.__find(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -197,14 +203,14 @@ class DailyReportModel:
     #####################################################################################
     
         # After implementing the function body, comment out the line below
-        pass
+        #pass
 
     def find_by_object_id(self, obj_id):
         key = {'_id': ObjectId(obj_id)}
         return self.__find(key)
     
     def __find(self, key):
-
+        return self._db.get_single_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -215,7 +221,7 @@ class DailyReportModel:
     #####################################################################################
     
         # After implementing the function body, comment out the line below
-        pass
+        #pass
         
     def __find_multiple(self, key):
         daily_report_documents = self._db.get_multiple_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)

@@ -2,7 +2,6 @@ from sys import settrace
 from database import Database
 from bson.objectid import ObjectId
 
-
 class DeviceModel:
     DEVICE_COLLECTION = 'devices'
 
@@ -161,8 +160,8 @@ class DailyReportModel:
         self._latest_error = latest_error
     
     def find_by_device_id_and_date(self, device_id, date):
-        key = {'device_id': device_id, 'timestamp': date}
-        return self.__find(key)
+        key = {'device_id': device_id, 'date': date}
+        return self._db.get_single_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -176,7 +175,7 @@ class DailyReportModel:
         #pass
     
     def find_by_device_id_and_date_range(self, device_id, from_date, to_date):
-        key = {'device_id': device_id, 'timestamp': {'$gte': from_date, '$lte': to_date}}
+        key = {'device_id': device_id, 'date': {'$gte': from_date, '$lte': to_date}}
         return self.__find(key)
     #####################################################################################
     #                                                                                   #
@@ -211,7 +210,7 @@ class DailyReportModel:
         return self.__find(key)
     
     def __find(self, key):
-        return self._db.get_single_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
+        return self._db.get_multiple_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #

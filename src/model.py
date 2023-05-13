@@ -190,9 +190,9 @@ class DailyReportModel:
         #pass
 
     def find_first_anomaly_by_date_range(self, device_ids, threshold, from_date, to_date):
-        key = {'device_id': {'$in': device_ids}, 'value': {'$gte': threshold},
-               'timestamp': {'$gte': from_date, '$lte': to_date}}
-        return self.__find(key).sort('timestamp', 1).limit(1)
+        key = {'device_id': {'$in': device_ids}, 'max_value': {'$gte': threshold},
+               'date': {'$gte': from_date, '$lte': to_date}}
+        return self._db.get_single_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #

@@ -161,7 +161,7 @@ class DailyReportModel:
     
     def find_by_device_id_and_date(self, device_id, date):
         key = {'device_id': device_id, 'date': date}
-        return self._db.get_single_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
+        return self.__find(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -176,7 +176,7 @@ class DailyReportModel:
     
     def find_by_device_id_and_date_range(self, device_id, from_date, to_date):
         key = {'device_id': device_id, 'date': {'$gte': from_date, '$lte': to_date}}
-        return self.__find(key)
+        return self.__find_multiple(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -190,9 +190,9 @@ class DailyReportModel:
         #pass
 
     def find_first_anomaly_by_date_range(self, device_ids, threshold, from_date, to_date):
-        key = {'device_id': {'$in': device_ids}, 'max_value': {'$gte': threshold},
-               'date': {'$gte': from_date, '$lte': to_date}}
-        return self._db.get_single_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
+        key = {'device_id': {'$in': device_ids}, 'max_value': {'$gt': threshold},
+               'date': {'$gte': from_date, '$lt': to_date}}
+        return self.__find(key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
@@ -210,7 +210,7 @@ class DailyReportModel:
         return self.__find(key)
     
     def __find(self, key):
-        return self._db.get_multiple_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
+        return self._db.get_single_data(DailyReportModel.DAILY_REPORT_COLLECTION, key)
     #####################################################################################
     #                                                                                   #
     # Insert the missing code here!                                                     #
